@@ -14,7 +14,7 @@ type ToastState = { id: number; type: ToastType; message: string }
 export default function App() {
   const [criticality, setCriticality] = useState<Criticality | null>(null)
   const [category, setCategory] = useState<Category | null>(null)
-  const [statusFilter, setStatusFilter] = useState<Status | null>(null)
+  const [statusFilter, setStatusFilter] = useState<Status | null>('Aberto')
   const [selectedId, setSelectedId] = useState<number | null>(null)
   const [theme, setTheme] = useState<'light' | 'dark'>('light')
   const [toast, setToast] = useState<ToastState | null>(null)
