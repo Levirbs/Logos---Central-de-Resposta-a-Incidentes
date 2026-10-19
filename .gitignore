@@ -1,0 +1,28 @@
+# Secrets and local task descriptions
+.env
+.env.*
+!.env.example
+/auxs.txt
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Node / Vite
+node_modules/
+dist/
+coverage/
+
+# Operating system
+.DS_Store
+Thumbs.db
