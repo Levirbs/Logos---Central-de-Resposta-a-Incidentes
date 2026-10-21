@@ -7,6 +7,16 @@ analista vê a fila ordenada por criticidade e antiguidade (com incidentes
 imediata) — e altera o status; a API impede que dois analistas sobrescrevam a
 mesma alteração (controle otimista por versão, HTTP 409).
 
+## 🌐 Demonstração Online
+
+A aplicação está publicada na nuvem e pronta para uso imediato, sem necessidade de instalação local:
+
+- **Aplicação Web:** <https://logos-rkbs.onrender.com>
+- **Documentação da API (Swagger):** <https://logos-rkbs.onrender.com/docs>
+- **Health Check:** <https://logos-rkbs.onrender.com/api/v1/health>
+
+> *Nota:* Hospedado no plano gratuito do Render. Caso o serviço esteja em hibernação (*cold start*), a primeira requisição pode levar ~40 segundos para inicializar o container e popular os dados de exemplo. As requisições seguintes respondem em tempo real.
+
 ## Estrutura
 
 - [`back/`](back/): API FastAPI + SQLAlchemy + SQLite e testes `pytest`.
