@@ -74,18 +74,33 @@ npm run format
 Se `front/dist` existir (após `npm run build`), o backend também serve a
 interface em <http://localhost:8000>, sem precisar do Vite.
 
-### API
+### Endpoints da API
 
-| Método | Rota | Descrição |
-| --- | --- | --- |
-| `GET` | `/api/v1/incidents?criticality=&category=&status=` | Lista ordenada (máx. 200) |
-| `GET` | `/api/v1/incidents/{id}` | Detalhe |
-| `POST` | `/api/v1/incidents` | Cria incidente (`code` = `INC-{id:05d}`) |
-| `PATCH` | `/api/v1/incidents/{id}` | Altera o status: `{ "status", "version" }` |
-| `GET` | `/api/v1/health` | Verificação de saúde e do banco |
+| Método | Rota | Parâmetros / Body | Descrição e Resposta |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/v1/incidents` | Query opcional: `criticality`, `category`, `status` | Lista incidentes ordenados no banco (ativos primeiro, criticidade Alta > Média > Baixa, mais antigos primeiro; máx. 200). Retorna `200 OK`. |
+| `GET` | `/api/v1/incidents/{incident_id}` | Path: `incident_id` (int) | Retorna o detalhe completo do incidente (`200 OK`) ou `404 Not Found`. |
+| `POST` | `/api/v1/incidents` | Body JSON: `{ title, description, category, criticality, location, reporter }` | Cria novo chamado com `status: "Aberto"` e gera código sequencial `INC-{id:05d}` (`201 Created`). |
+| `PATCH` | `/api/v1/incidents/{incident_id}` | Body JSON: `{ "status": "...", "version": 1 }` | Atualização atômica de status. Incrementa `version` se bem-sucedido (`200 OK`). Retorna `409 Conflict` se a versão estiver desatualizada. |
+| `GET` | `/api/v1/health` | — | Verificação de integridade da API e conectividade com o banco SQLite (`200 OK` ou `503`). |
 
-Um `PATCH` com `version` desatualizada retorna `409` com
-`{ "code": "VERSION_CONFLICT", "message": "...", "current": { ... } }`.
+#### Controle de Concorrência Otimista (HTTP 409)
+
+Ao receber um `PATCH` com `version` divergente da atual no banco, a API rejeita *Last Write Wins* e retorna `409 Conflict`:
+
+```json
+{
+  "code": "VERSION_CONFLICT",
+  "message": "O incidente foi atualizado por outro analista.",
+  "current": {
+    "id": 54,
+    "code": "INC-00054",
+    "status": "Em Investigação",
+    "version": 2,
+    "updated_at": "2026-10-21T18:00:00Z"
+  }
+}
+```
 
 Variáveis opcionais do backend: `LOGOS_DATABASE_URL`, `LOGOS_CORS_ORIGINS`
 (padrão `http://localhost:5173`) e `LOGOS_STATIC_DIR`.
