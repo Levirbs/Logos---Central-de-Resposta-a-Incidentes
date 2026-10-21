@@ -2,8 +2,9 @@
 
 # Logos: instruções do projeto
 
-Logos é um MVP para triagem e resposta a incidentes. O frontend React/Vite em
-`front/` é um protótipo; backend, API e persistência ainda são planejados.
+Logos é um MVP funcional completo para triagem e resposta a incidentes,
+composto pelo frontend React/TypeScript em `front/` e pela API FastAPI com
+persistência SQLite em `back/`.
 
 ## Antes de alterar código
 
