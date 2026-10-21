@@ -46,8 +46,10 @@ atendimento.
   interatividade.
 - Oferecer modos claro e escuro.
 
-A tela consome a API real (`/api/v1`). Filtros de criticidade e categoria são
-enviados ao servidor; o frontend não reordena a lista.
+A tela consome a API real (`/api/v1`). Os filtros de criticidade, categoria e
+status são enviados ao servidor (o filtro de status abre por padrão em `Aberto`
+para priorizar a fila de triagem imediata, permitindo alternar para qualquer
+outro status ou `"Todos os status"`); o frontend não reordena a lista.
 
 ### Ordenação no banco
 
