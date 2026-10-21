@@ -1,9 +1,11 @@
 # Logos — Central de Resposta a Incidentes
 
 MVP para priorizar e acompanhar incidentes de uma central de operações. Um
-analista vê a fila ordenada por criticidade e antiguidade, filtra por
-criticidade e categoria e altera o status; a API impede que dois analistas
-sobrescrevam a mesma alteração (controle otimista por versão, HTTP 409).
+analista vê a fila ordenada por criticidade e antiguidade (com incidentes
+`Fechado` ao final), filtra pelos 3 seletores — criticidade, categoria e status
+(abrindo por padrão nos incidentes `"Aberto"` para priorizar a fila de triagem
+imediata) — e altera o status; a API impede que dois analistas sobrescrevam a
+mesma alteração (controle otimista por versão, HTTP 409).
 
 ## Estrutura
 
