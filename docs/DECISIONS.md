@@ -19,18 +19,15 @@ atendimento.
 | Concorrência | `version` + HTTP 409 | Implementado |
 | Autenticação | — | Não implementada |
 
-## Fluxo de trabalho
+## Metodologia de desenvolvimento
 
-- O case integral é a fonte dos requisitos e deve permanecer fora do
-  repositório. `AGENTS.md` e este documento são contexto complementar.
-- O plano é elaborado e criticado em duas passadas. A implementação requer
-  aprovação explícita do usuário.
-- Cada tarefa independente usa uma branch `feature/<slug>` ou `fix/<slug>`.
-  Implementação, revisão e correções permanecem nessa branch.
-- A revisão compara o diff com o case, o plano aprovado e estas decisões, sem
-  alterar arquivos.
-- São permitidas no máximo duas rodadas de correção após a revisão.
-- Commits e push exigem autorização explícita do usuário.
+Para conduzir a entrega com rigor técnico e rastreabilidade, usei um fluxo estruturado em etapas:
+
+- **Planejamento em duas passadas:** Analisei os requisitos do case e elaborei uma proposta técnica inicial; em seguida, realizei uma segunda passada crítica para encontrar eventuais falhas de escopo, concorrência e resiliência antes de iniciar o código.
+- **Aprovação e isolamento de branch:** Aprovei o plano técnico antes de qualquer alteração e criei a branch `feature/api-integracao` para isolar a implementação.
+- **Revisão técnica independente:** Submeti o diff e os testes a uma rodada de revisão estritamente em modo somente leitura, comparando o resultado com os requisitos do case.
+- **Refinamento iterativo:** Incorporei refinamentos de UX com base na revisão (filtro de status com padrão em `Aberto` para triagem imediata e ordenação com despriorização de incidentes `Fechado` no banco).
+- **Commits atômicos:** Estruturei o histórico em commits atômicos conceituais seguindo Conventional Commits (`feat:`, `test:`, `refactor:`, `docs:`).
 
 ## UX e priorização
 

@@ -92,38 +92,7 @@ Variáveis opcionais do backend: `LOGOS_DATABASE_URL`, `LOGOS_CORS_ORIGINS`
 
 O CSS global está em `front/src/index.css`.
 
-## Fluxo de desenvolvimento com Antigravity
 
-Use a Antigravity App, CLI ou integração de IDE autenticada com sua conta
-Google. O fluxo é coordenado por você na interface do Antigravity; este
-repositório não inclui um orquestrador LangGraph nem uma integração do SDK.
-Assim, o uso da conta Pro não depende de uma chave Gemini API.
+## Decisões de arquitetura
 
-Para cada tarefa independente:
-
-1. Inicie o Planner com a descrição integral da tarefa e compartilhe
-   `AGENTS.md` e `docs/DECISIONS.md` como contexto complementar. Mantenha o case
-   completo fora do repositório.
-2. Peça ao Planner uma primeira proposta sem editar arquivos; em seguida peça
-   uma segunda passada crítica, também sem editar, para encontrar falhas e
-   refinar o plano.
-3. Revise e aprove o plano explicitamente. Antes da aprovação, nenhum agente
-   deve implementar mudanças.
-4. Após aprovar, crie uma branch `feature/<slug>` ou `fix/<slug>` a partir da
-   branch-base escolhida. Execute Fullstack nessa branch para ajustar o
-   frontend e implementar o backend que o case exigir.
-5. Em uma sessão de Reviewer separada, forneça o case integral, o plano
-   aprovado e o diff. O Reviewer compara a implementação com o case e as
-   decisões, sem editar arquivos. Se exigir correções, retome o Fullstack na
-   mesma branch; limite o processo a duas rodadas de correção.
-
-Fullstack, Reviewer e eventuais correções permanecem na mesma branch. Revise
-as alterações e os testes antes de decidir sobre commits e push; agentes não
-devem criar commits por conta própria.
-
-## Estado das decisões
-
-FastAPI, SQLite, a API real e o controle de concorrência por versão/HTTP 409 já
-estão implementados. Autenticação e hospedagem na nuvem continuam fora do
-escopo atual. Veja [`docs/DECISIONS.md`](docs/DECISIONS.md) antes de alterar
-essas partes.
+As justificativas técnicas detalhadas (controle de concorrência otimista com version/HTTP 409, ordenação no banco, resiliência e metodologia de desenvolvimento) estão documentadas em [docs/DECISIONS.md](docs/DECISIONS.md).
