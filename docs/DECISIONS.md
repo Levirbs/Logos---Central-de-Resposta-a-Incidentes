@@ -19,15 +19,27 @@ atendimento.
 | Concorrência | `version` + HTTP 409 | Implementado |
 | Autenticação | — | Não implementada |
 
-## Metodologia de desenvolvimento
+## Metodologia de desenvolvimento e arquitetura de agentes
 
-Para conduzir a entrega com rigor técnico e rastreabilidade, usei um fluxo estruturado em etapas:
+Para conduzir a entrega com alto padrão de engenharia de software e inteligência artificial aplicada, estruturei o desenvolvimento utilizando uma arquitetura multiagente coordenada por um **Orquestrador**, com segregação estrita de papéis entre subagentes especializados e aprovação humana em cada etapa (*human-in-the-loop*):
 
-- **Planejamento em duas passadas:** Analisei os requisitos do case e elaborei uma proposta técnica inicial; em seguida, realizei uma segunda passada crítica para encontrar eventuais falhas de escopo, concorrência e resiliência antes de iniciar o código.
-- **Aprovação e isolamento de branch:** Aprovei o plano técnico antes de qualquer alteração e criei a branch `feature/api-integracao` para isolar a implementação.
-- **Revisão técnica independente:** Submeti o diff e os testes a uma rodada de revisão estritamente em modo somente leitura, comparando o resultado com os requisitos do case.
-- **Refinamento iterativo:** Incorporei refinamentos de UX com base na revisão (filtro de status com padrão em `Aberto` para triagem imediata e ordenação com despriorização de incidentes `Fechado` no banco).
-- **Commits atômicos:** Estruturei o histórico em commits atômicos conceituais seguindo Conventional Commits (`feat:`, `test:`, `refactor:`, `docs:`).
+### Papéis e responsabilidades
+
+| Papel / Agente | Modo de operação | Responsabilidade e escopo |
+| :--- | :--- | :--- |
+| **Orquestrador** | Coordenação | Gerenciou o fluxo do ciclo de vida, preparou as diretrizes de cada fase e garantiu que nenhum agente executasse ações fora do seu escopo (sem implementar código diretamente nem commitar sem autorização). |
+| **Planner** | Somente leitura | Analisou os requisitos do case e formulou o plano técnico em **duas passadas** (uma proposta inicial e uma segunda rodada de crítica rigorosa para mitigar riscos de concorrência, TOCTOU e resiliência de rede). |
+| **Fullstack** | Leitura e escrita | Atuou na branch isolada `feature/api-integracao`, implementando o backend FastAPI com SQLite WAL, modularizando o frontend React/TS (preservando o visual do Figma) e escrevendo os 26 testes automatizados. |
+| **Reviewer** | Somente leitura | Sessão independente de auditoria de código que comparou o diff contra os requisitos do case, avaliou a robustez do HTTP 409 e emitiu o parecer formal (`APPROVED`), sugerindo refinamentos pontuais de UX. |
+
+### Fluxo executado na prática
+
+1. **Planejamento em duas passadas (Planner):** Acionei o Planner com o case completo; na primeira passada ele desenhou a arquitetura e na segunda criticou a si mesmo, refinando o controle de concorrência por `version` e o tratamento de 503 com `Retry-After`.
+2. **Aprovação do plano:** Revisei e aprovei formalmente o plano técnico consolidado antes de iniciar qualquer alteração de código.
+3. **Isolamento de branch:** Criei a branch `feature/api-integracao` para garantir rastreabilidade completa e isolamento de contexto.
+4. **Implementação (Fullstack):** O agente Fullstack construiu a API, os modelos, schemas, seed determinístico de 100 incidentes e conectou os estados reais do frontend.
+5. **Revisão e refinamento (Reviewer + Fullstack):** Submeti o diff ao Reviewer, que emitiu veredito `APPROVED` (nota 98/100) e sugeriu a adição do seletor de status e despriorização de incidentes `Fechado`. Conduzi rodadas rápidas com o Fullstack para aplicar e validar essas melhorias.
+6. **Versionamento semântico:** Estruturei o histórico em commits atômicos conceituais seguindo Conventional Commits (`feat:`, `test:`, `refactor:`, `docs:`) e realizei o merge para a branch `main`.
 
 ## UX e priorização
 
